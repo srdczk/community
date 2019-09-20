@@ -6,12 +6,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
+/**
+ * created by srdczk 2019/9/18
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CommunityApplicationTests {
-
-	@Test
-	public void contextLoads() {
-	}
-
+@Sql("/init.sql")
+public class SqlTests {
+    @Test
+    public void contextLoads() {
+    }
 }
