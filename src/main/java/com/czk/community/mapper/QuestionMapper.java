@@ -3,6 +3,7 @@ package com.czk.community.mapper;
 import com.czk.community.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -17,8 +18,13 @@ public interface QuestionMapper {
     @Insert(value = "insert into question (" + INSERT_FILED + ") values (#{title}, #{description}, #{gmtCreate}, #{gmtModified}, #{creator}, #{tag})")
     void create(Question question);
 
-
     @Select("select * from question")
     List<Question> getAll();
+
+    @Select("select count(*) from question")
+    Integer getNum();
+
+    @Select("select * from question limit #{off}, #{cnt}")
+    List<Question> getUserBy(@Param(value = "off") Integer off, @Param(value = "cnt") Integer cnt);
 
 }
