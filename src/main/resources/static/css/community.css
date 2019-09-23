@@ -24,3 +24,8 @@ body {
     display: inline-block;
     font-size: 16px;
 }
+
+.img-rounded img {
+    width: 38px;
+    height: 38px;
+}
