@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS QUESTION;
+DROP TABLE IF EXISTS flyway_schema_history;
 /**
 CREATE TABLE user
 (

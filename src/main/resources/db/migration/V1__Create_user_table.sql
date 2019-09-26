@@ -6,5 +6,5 @@ CREATE TABLE user
   token CHAR(50),
   gmt_create BIGINT,
   gmt_modified BIGINT,
-  bio VARCHAR(256)
+  UNIQUE (name)
 );

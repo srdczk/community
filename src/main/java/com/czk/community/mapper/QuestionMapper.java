@@ -27,4 +27,13 @@ public interface QuestionMapper {
     @Select("select * from question limit #{off}, #{cnt}")
     List<Question> getUserBy(@Param(value = "off") Integer off, @Param(value = "cnt") Integer cnt);
 
+    @Select("select * from question where creator = #{userId}")
+    List<Question> getByUserId(@Param("userId") Integer userId);
+
+    @Select("select * from question where creator = #{userId} limit #{off}, #{cnt}")
+    List<Question> getPage(@Param("userId") Integer userId, @Param("off") Integer off, @Param("cnt") Integer cnt);
+
+    @Select("select count(*) from question where creator = #{userId}")
+    Integer getUserQuestionNum(@Param("userId") Integer userId);
+
 }
