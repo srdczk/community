@@ -1,5 +1,7 @@
 package com.czk.community.controller;
 
+import com.czk.community.exception.CustomizeErrorCode;
+import com.czk.community.exception.CustomizeException;
 import com.czk.community.mapper.QuestionMapper;
 import com.czk.community.mapper.UserMapper;
 import com.czk.community.model.Question;
@@ -95,16 +97,21 @@ public class PublishController {
 
 
     @GetMapping("/publish/{id}")
-    public String update(@PathVariable(value = "id") Integer id, Model model, HttpServletRequest request) {
-        Question question = questionMapper.getQuestionById(id);
+    public String update(@PathVariable(value = "id") String id, Model model, HttpServletRequest request) {
+        Integer i = null;
+        try {
+            i = Integer.valueOf(id);
+        } catch (Exception e) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
+        Question question = questionMapper.getQuestionById(i);
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         User user = Util.getUserByCookies(request, userMapper);
         if (user == null) {
             model.addAttribute("error", "用户未登录");
             return "publish";
-        }
-        if (question == null) {
-            model.addAttribute("error", "问题编号有误");
-            return "redirect:/";
         }
         model.addAttribute("id", id);
         model.addAttribute("title", question.getTitle());

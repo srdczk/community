@@ -1,5 +1,7 @@
 package com.czk.community.controller;
 
+import com.czk.community.exception.CustomizeErrorCode;
+import com.czk.community.exception.CustomizeException;
 import com.czk.community.mapper.QuestionMapper;
 import com.czk.community.mapper.UserMapper;
 import com.czk.community.model.Question;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -29,10 +30,18 @@ public class QuestionController {
     private QuestionMapper questionMapper;
 
     @GetMapping(value = "/question/{id}")
-    public String question(@PathVariable(value = "id") Integer id, HttpServletRequest request, Model model) {
+    public String question(@PathVariable(value = "id") String id, HttpServletRequest request, Model model) {
+        Integer i;
+        try {
+            i = Integer.valueOf(id);
+        } catch (Exception e) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         User user = Util.getUserByCookies(request, userMapper);
-        Question question = questionMapper.getQuestionById(id);
-        model.addAttribute("error", "问题编号错误");
+        Question question = questionMapper.getQuestionById(i);
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         model.addAttribute("question", question);
         model.addAttribute("user", userMapper.getById(question.getCreator()));
         if (user != null && user.getId().equals(question.getCreator())) {
@@ -47,10 +56,9 @@ public class QuestionController {
         User user = Util.getUserByCookies(request, userMapper);
 
         if (user == null) {
-            model.addAttribute("error", "用户未登录");
-            return "questions";
+            throw new CustomizeException(CustomizeErrorCode.USER_NOT_SIGN_IN);
         }
-        request.getSession().setAttribute("user", user);
+
         String avatar = user.getAvatar();
         List<Question> questions = questionMapper.getPage(user.getId(), (page - 1) * 10, 10);
         model.addAttribute("questions", questions);

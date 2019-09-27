@@ -9,8 +9,6 @@
 
 [elastic 中文社区](https://elasticsearch.cn/)
 
-[文档](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
-
 [Bootstrap 中文文档](https://v3.bootcss.com/)
 
 [Github OAuth](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
