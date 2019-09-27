@@ -24,14 +24,38 @@
 ## 脚本
 
 ```sql
-CREATE TABLE USER(
-    ID INT DEFAULT AUTO_INCREMENT PRIMARY KEY,
-    ACCOUNT_ID VARCHAR(100),
-    NAME VARCHAR(50),
-    TOKEN CHAR(50),
-    GMT_CREATE BIGINT,
-    GMT_MODIFIED BIGINT
-)
+CREATE TABLE user
+(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  account_id VARCHAR(100),
+  name VARCHAR(50),
+  token CHAR(50),
+  gmt_create BIGINT,
+  gmt_modified BIGINT,
+  UNIQUE (name)
+);
+
 ALTER TABLE USER ADD bio VARCHAR(256) NULL;
 
+
+CREATE TABLE question
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(50),
+    description TEXT,
+    gmt_create BIGINT,
+    gmt_modified BIGINT,
+    creator INT,
+    comment_count INT DEFAULT 0,
+    view_count INT DEFAULT 0,
+    like_count INT DEFAULT 0,
+    tag VARCHAR(256)
+);
+
+ALTER TABLE USER ADD avatar VARCHAR(100) NULL;
+
+
+```
+```bash
+mvn flyway:migrate 
 ```
