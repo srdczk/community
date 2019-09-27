@@ -4,13 +4,11 @@ import com.czk.community.mapper.QuestionMapper;
 import com.czk.community.mapper.UserMapper;
 import com.czk.community.model.Question;
 import com.czk.community.model.User;
+import com.czk.community.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -24,24 +22,43 @@ public class PublishController {
     private UserMapper userMapper;
     @Autowired
     private QuestionMapper questionMapper;
-    @GetMapping("/publish")
-    public String publish(HttpServletRequest request) {
-        User user;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    user = userMapper.getByToken(cookie.getValue());
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                        System.out.println(user.getName());
-                    }
-                    break;
-                }
-            }
+
+
+    @PutMapping("/publish")
+    public String update(@RequestParam("title") String title,
+                         @RequestParam("text") String description,
+                         @RequestParam("tag") String tag,
+                         @RequestParam("id") String id,
+                         HttpServletRequest request,
+                         Model model) {
+        if (title == null || title.equals("")) {
+            model.addAttribute("error", "标题不能为空");
+            return "publish";
         }
-        return "publish";
+        if (description == null || description.equals("")) {
+            model.addAttribute("error", "内容不能为空");
+            return "publish";
+        }
+        if (tag == null || tag.equals("")) {
+            model.addAttribute("error", "标签不能为空");
+            return "publish";
+        }
+        User user = Util.getUserByCookies(request, userMapper);
+        if (user == null) {
+            model.addAttribute("error", "用户未登录");
+            return "publish";
+        }
+        Question question = new Question();
+        question.setId(Integer.valueOf(id));
+        question.setTitle(title);
+        question.setDescription(description);
+        question.setTag(tag);
+        question.setGmtModified(System.currentTimeMillis());
+        questionMapper.update(question);
+        return "redirect:/";
     }
+
+
     @PostMapping("/publish")
     public String publish(@RequestParam("title") String title,
                           @RequestParam("text") String description,
@@ -60,20 +77,7 @@ public class PublishController {
             model.addAttribute("error", "标签不能为空");
             return "publish";
         }
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    user = userMapper.getByToken(cookie.getValue());
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                        System.out.println(user.getName());
-                    }
-                    break;
-                }
-            }
-        }
+        User user = Util.getUserByCookies(request, userMapper);
         if (user == null) {
             model.addAttribute("error", "用户未登录");
             return "publish";
@@ -87,5 +91,32 @@ public class PublishController {
         question.setCreator(user.getId());
         questionMapper.create(question);
         return "redirect:/";
+    }
+
+
+    @GetMapping("/publish/{id}")
+    public String update(@PathVariable(value = "id") Integer id, Model model, HttpServletRequest request) {
+        Question question = questionMapper.getQuestionById(id);
+        User user = Util.getUserByCookies(request, userMapper);
+        if (user == null) {
+            model.addAttribute("error", "用户未登录");
+            return "publish";
+        }
+        if (question == null) {
+            model.addAttribute("error", "问题编号有误");
+            return "redirect:/";
+        }
+        model.addAttribute("id", id);
+        model.addAttribute("title", question.getTitle());
+        model.addAttribute("text", question.getDescription());
+        model.addAttribute("tag", question.getTag());
+
+        return "publish";
+    }
+
+    @GetMapping("/publish")
+    public String publish(HttpServletRequest request) {
+        Util.getUserByCookies(request, userMapper);
+        return "publish";
     }
 }

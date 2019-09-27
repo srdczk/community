@@ -1,7 +1,11 @@
 package com.czk.community.util;
 
+import com.czk.community.mapper.UserMapper;
 import com.czk.community.model.PageObject;
+import com.czk.community.model.User;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +13,23 @@ import java.util.List;
  * created by srdczk 2019/9/26
  */
 public class Util {
+
+
+    public static User getUserByCookies(HttpServletRequest request, UserMapper userMapper) {
+        User user = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    user = userMapper.getByToken(cookie.getValue());
+                    break;
+                }
+            }
+        }
+        request.getSession().setAttribute("user", user);
+        return user;
+    }
+
 
     public static List<PageObject> getPageObject(int sum, int p) {
 

@@ -5,6 +5,8 @@
 
 [Spring web 文档](https://spring.io/guides/gs/serving-web-content/)
 
+[Spring MVC 文档(配置拦截器)](https://docs.spring.io/spring/docs/5.0.3.RELEASE/spring-framework-reference/web.html#spring-web)
+
 [elastic 中文社区](https://elasticsearch.cn/)
 
 [文档](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)

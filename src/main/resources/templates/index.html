@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>社区</title>
+    <div th:insert="~{header :: copy}"> </div>
 </head>
 <body>
-<div th:insert="~{footer :: copy}"> </div>
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-md-12">
@@ -18,7 +18,7 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" ><a href="/question" th:text="${vo.get('question').getTitle()}"></a></h4>
+                    <h4 class="media-heading" ><a th:href="'/question/' + ${vo.get('question').getId()}" th:text="${vo.get('question').getTitle()}"></a></h4>
                     <span class="text-desc">
                         <span th:text="${vo.get('question').getCommentCount()} + '条回复 • '"></span>
                         <span th:text="${vo.get('question').getViewCount()} + '个浏览 • '"></span>

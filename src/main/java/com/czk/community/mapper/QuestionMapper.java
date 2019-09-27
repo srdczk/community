@@ -1,10 +1,7 @@
 package com.czk.community.mapper;
 
 import com.czk.community.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -35,5 +32,11 @@ public interface QuestionMapper {
 
     @Select("select count(*) from question where creator = #{userId}")
     Integer getUserQuestionNum(@Param("userId") Integer userId);
+
+    @Select("select * from question where id = #{id}")
+    Question getQuestionById(@Param("id") Integer id);
+    //UPDATE Person SET FirstName = 'Fred' WHERE LastName = 'Wilson'
+    @Update("update question set title = #{title}, description = #{description}, gmt_modified = #{gmtModified}, tag = #{tag} where id = #{id}")
+    void update(Question question);
 
 }

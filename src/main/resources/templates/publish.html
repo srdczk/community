@@ -2,10 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>发布</title>
-
+    <div th:insert="~{header :: copy}"> </div>
 </head>
 <body>
-<div th:insert="~{footer :: copy}"> </div>
 
 <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"/>
 
@@ -16,23 +15,44 @@
 
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h2>
             <hr>
-            <form action="/publish" method="post">
+            <form th:action="@{/publish}" method="post">
+                <input type="hidden" name="_method" value="put" th:if="${id != null}">
+                <input type="hidden" name="id" th:value="${id}" th:if="${id != null}">
                 <div class="form-group">
                     <h4><label for="title">问题标题(简明扼要)</label></h4>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="请输入问题标题...">
+                    <input type="text" class="form-control" id="title" name="title" th:value="${title == null ? '请输入问题标题...' : title}">
                 </div>
                 <div class="form-group">
                     <h4><label for="text">问题补充(必填，请按照右边格式要求)</label></h4>
-                    <textarea  id="text" class="form-control" cols="30" rows="20" name="text"></textarea>
+                    <textarea  id="text" class="form-control" cols="30" rows="20" name="text" th:text="${text == null ? '请输入问题描述...' : text}"></textarea>
                 </div>
                 <div class="form-group">
                     <h4><label for="labels">添加标签:</label></h4>
-                    <input type="text" class="form-control" id="labels" placeholder="输入标签，用，分隔" name="tag">
+                    <input type="text" class="form-control" id="labels" th:value="${tag == null ? '输入标签，用，分隔' : tag}" name="tag">
                 </div>
                 <div class="con">
                     <button type="submit" id="btn-publish" class="btn btn-success">发布</button>
                 </div>
             </form>
+            <!--<form th:if="${id != null}" th:action="@{/publish}" method="post">-->
+                <!--<div class="form-group">-->
+                    <!--<h4><label for="title">问题标题(简明扼要)</label></h4>-->
+                    <!--<input type="text" class="form-control" id="ti" name="ti" th:value="${title}">-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<h4><label for="text">问题补充(必填，请按照右边格式要求)</label></h4>-->
+                    <!--<textarea  id="tx" class="form-control" cols="30" rows="20" name="tx" th:text="${text}"></textarea>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<h4><label for="labels">添加标签:</label></h4>-->
+                    <!--<input type="text" class="form-control" id="tags" name="tags" th:value="${tag}">-->
+                <!--</div>-->
+                <!--<div class="con">-->
+                    <!--<button type="submit" id="update" class="btn btn-success">发布</button>-->
+                <!--</div>-->
+            <!--</form>-->
+
+
 
         </div>
 
