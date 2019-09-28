@@ -30,7 +30,7 @@ CREATE TABLE user
   token CHAR(50),
   gmt_create BIGINT,
   gmt_modified BIGINT,
-  UNIQUE (name)
+  UNIQUE (account_id)
 );
 
 ALTER TABLE USER ADD bio VARCHAR(256) NULL;
@@ -51,6 +51,17 @@ CREATE TABLE question
 );
 
 ALTER TABLE USER ADD avatar VARCHAR(100) NULL;
+
+CREATE TABLE comment
+(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    parent_id BIGINT,
+    type INT NOT NULL,
+    creator INT NOT NULL,
+    gmt_create BIGINT,
+    gmt_modified BIGINT,
+    like_count INT DEFAULT 0
+);
 
 
 ```

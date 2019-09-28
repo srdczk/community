@@ -2,8 +2,10 @@ package com.czk.community.controller;
 
 import com.czk.community.exception.CustomizeErrorCode;
 import com.czk.community.exception.CustomizeException;
+import com.czk.community.mapper.CommentMapper;
 import com.czk.community.mapper.QuestionMapper;
 import com.czk.community.mapper.UserMapper;
+import com.czk.community.model.Comment;
 import com.czk.community.model.Question;
 import com.czk.community.model.User;
 import com.czk.community.util.Util;
@@ -24,6 +26,9 @@ import java.util.List;
 public class QuestionController {
 
     @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
     private UserMapper userMapper;
 
     @Autowired
@@ -42,7 +47,16 @@ public class QuestionController {
         if (question == null) {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
+        if (user == null || !user.getId().equals(question.getCreator())) {
+            question.setViewCount(question.getViewCount() + 1);
+
+            if (questionMapper.updateViewCount(question.getViewCount(), question.getId()) != 1) {
+                throw new CustomizeException(CustomizeErrorCode.VIEW_COUNT_UPDATE_ERROR);
+            }
+        }
+        List<Comment> comments = commentMapper.getQuestionComments((long)question.getId());
         model.addAttribute("question", question);
+        model.addAttribute("comments", comments);
         model.addAttribute("user", userMapper.getById(question.getCreator()));
         if (user != null && user.getId().equals(question.getCreator())) {
             model.addAttribute("isMe",  "true");

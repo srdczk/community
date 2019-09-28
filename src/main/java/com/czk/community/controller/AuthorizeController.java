@@ -48,7 +48,7 @@ public class AuthorizeController {
         GithubUser githubUser = provider.getUser(p);
         System.out.println(githubUser);
         if (githubUser != null) {
-            User user = userMapper.getByName(githubUser.getName());
+            User user = userMapper.getByAccountId(String.valueOf(githubUser.getId()));
             if (user == null) {
                 user = new User();
                 String token = UUID.randomUUID().toString();
@@ -60,7 +60,16 @@ public class AuthorizeController {
                 user.setAvatar(githubUser.getAvatar_url());
                 user.setBio(githubUser.getBio());
                 userMapper.insert(user);
+            } else {
+                if (!user.getName().equals(githubUser.getName()) || !user.getAvatar().equals(githubUser.getAvatar_url()) || !user.getBio().equals(githubUser.getBio())) {
+                    user.setName(githubUser.getName());
+                    user.setAvatar(githubUser.getAvatar_url());
+                    user.setBio(githubUser.getBio());
+                    user.setGmtModified(System.currentTimeMillis());
+                    userMapper.update(user);
+                }
             }
+
             response.addCookie(new Cookie("token", user.getToken()));
             //登陆成功
             return "redirect:/";

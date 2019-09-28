@@ -1,10 +1,7 @@
 package com.czk.community.mapper;
 
 import com.czk.community.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -26,5 +23,11 @@ public interface UserMapper {
 
     @Select("select * from user where name = #{name}")
     User getByName(@Param(value = "name") String name);
+
+    @Select("select * from user where account_id = #{accountId}")
+    User getByAccountId(@Param(value = "accountId") String accountId);
+
+    @Update("update user set name = #{name}, bio = #{bio}, avatar = #{avatar}, gmt_modified = #{gmtModified} where id = #{id}")
+    int update(User user);
 
 }

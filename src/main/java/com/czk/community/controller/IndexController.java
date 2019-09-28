@@ -1,12 +1,10 @@
 package com.czk.community.controller;
 
 
+import com.czk.community.mapper.CommentMapper;
 import com.czk.community.mapper.QuestionMapper;
 import com.czk.community.mapper.UserMapper;
-import com.czk.community.model.PageObject;
-import com.czk.community.model.Question;
-import com.czk.community.model.User;
-import com.czk.community.model.ViewObject;
+import com.czk.community.model.*;
 import com.czk.community.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +21,9 @@ import java.util.List;
 
 @Controller
 public class IndexController {
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Autowired
     private QuestionMapper questionMapper;
