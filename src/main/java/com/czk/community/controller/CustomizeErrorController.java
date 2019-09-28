@@ -48,5 +48,4 @@ public class CustomizeErrorController implements ErrorController {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
     }
-
 }

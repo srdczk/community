@@ -1,10 +1,7 @@
 package com.czk.community.mapper;
 
 import com.czk.community.model.Comment;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -24,5 +21,11 @@ public interface CommentMapper {
 
     @Insert(value = "insert into comment (" + INSERT_FIELD + ") values (#{parentId}, #{type}, #{creator}, #{gmtCreate}, #{gmtModified}, #{text})")
     void addComment(Comment comment);
+
+    @Select("select * from comment where id = #{id}")
+    Comment getCommentById(@Param(value = "id") Long id);
+
+    @Update("update comment set comment_count = #{commentCount} where id = #{id}")
+    int updateCommentCount(Comment comment);
 
 }

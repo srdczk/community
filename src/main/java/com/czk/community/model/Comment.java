@@ -24,6 +24,15 @@ public class Comment {
     private Long gmtModified;
     private Integer likeCount;
     private String text;
+    private Integer commentCount;
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
+    }
 
     public String getText() {
         return text;

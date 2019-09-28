@@ -5,4 +5,5 @@ package com.czk.community.exception;
  */
 public interface ICustomizeErrorCode {
     String getMessage();
+    Integer getCode();
 }
