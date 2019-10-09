@@ -49,7 +49,6 @@ public class QuestionController {
         }
         if (user == null || !user.getId().equals(question.getCreator())) {
             question.setViewCount(question.getViewCount() + 1);
-
             if (questionMapper.updateViewCount(question.getViewCount(), question.getId()) != 1) {
                 throw new CustomizeException(CustomizeErrorCode.VIEW_COUNT_UPDATE_ERROR);
             }

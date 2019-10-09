@@ -29,3 +29,8 @@ body {
     width: 38px;
     height: 38px;
 }
+
+.btn-comment {
+    float: right;
+    margin-bottom: 10px;
+}

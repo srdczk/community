@@ -35,7 +35,7 @@
 
 
         <div class="col-lg-3 col-md-12 col-md-12">
-            <img th:src="${session.user.avatar}" width="100px" height="100px">
+            <img th:src="${session.user.avatar}" width="100px" height="100px" class="img-circle">
             <h3 th:text="${session.user.name}"></h3>
             <h4 th:text="${session.user.bio}"> </h4>
             <p th:text="'join us from :' + ${#dates.format(session.user.gmtCreate, 'yyyy/MM/dd')}"></p><br>
