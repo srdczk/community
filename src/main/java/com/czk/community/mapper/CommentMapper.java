@@ -28,4 +28,7 @@ public interface CommentMapper {
     @Update("update comment set comment_count = #{commentCount} where id = #{id}")
     int updateCommentCount(Comment comment);
 
+    @Select("select * from comment where parent_id = #{parentId} and type = 2")
+    List<Comment> getSecondComments(@Param(value = "parentId") Long ParentId);
+
 }

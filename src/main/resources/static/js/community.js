@@ -1,6 +1,5 @@
-function postComment() {
-    var parentId = $("#parentId").val();
-    var text = $("#comment_content").val();
+function sendComment(parentId, text, type) {
+    if (!text) alert('输入内容不能为空!');
     $.ajax({
         type: "POST",
         url: "/comment",
@@ -8,7 +7,7 @@ function postComment() {
         data: JSON.stringify({
             "parentId" : parentId,
             "text" : text,
-            "type" : 1
+            "type" : type
         }),
         dataType: "json",
         success:function (response) {
@@ -19,4 +18,18 @@ function postComment() {
             }
         }
     });
+}
+
+
+function postComment() {
+    var parentId = $("#parentId").val();
+    var text = $("#comment_content").val();
+    sendComment(parentId, text, 1);
+}
+
+function comment(e) {
+    var parentId = e.getAttribute('data-id');
+    var text = $("#input-" + parentId).val();
+    console.log(parentId + ' ' + text);
+    sendComment(parentId, text, 2);
 }

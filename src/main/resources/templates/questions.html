@@ -17,7 +17,7 @@
             <div class="media" th:each="question : ${questions}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object img-rounded" th:src="${avatar}" width="38px" height="38px">
+                        <img class="media-object img-circle" th:src="${avatar}" width="38px" height="38px">
                     </a>
                 </div>
                 <div class="media-body">
@@ -35,7 +35,7 @@
 
 
         <div class="col-lg-3 col-md-12 col-md-12">
-            <img th:src="${session.user.avatar}" width="100px" height="100px" class="img-circle">
+            <img th:src="${session.user.avatar}" width="50px" height="50px" class="img-circle">
             <h3 th:text="${session.user.name}"></h3>
             <h4 th:text="${session.user.bio}"> </h4>
             <p th:text="'join us from :' + ${#dates.format(session.user.gmtCreate, 'yyyy/MM/dd')}"></p><br>

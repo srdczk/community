@@ -31,7 +31,8 @@ public class CommentService {
         }
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(System.currentTimeMillis());
-        if (comment.getType().equals(CommentTypeEnum.QUESTION)) {
+
+        if (comment.getType().equals(CommentTypeEnum.QUESTION.getType())) {
             Question question = questionMapper.getQuestionById((int)(long)comment.getParentId());
             if (question == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
@@ -46,7 +47,7 @@ public class CommentService {
             }
             father.setCommentCount(father.getCommentCount() + 1);
             father.setGmtModified(System.currentTimeMillis());
-            commentMapper.updateCommentCount(comment);
+            commentMapper.updateCommentCount(father);
             commentMapper.addComment(comment);
         }
     }

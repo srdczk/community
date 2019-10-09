@@ -8,6 +8,7 @@ import com.czk.community.mapper.UserMapper;
 import com.czk.community.model.Comment;
 import com.czk.community.model.Question;
 import com.czk.community.model.User;
+import com.czk.community.model.ViewObject;
 import com.czk.community.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,9 +55,25 @@ public class QuestionController {
                 throw new CustomizeException(CustomizeErrorCode.VIEW_COUNT_UPDATE_ERROR);
             }
         }
+        List<ViewObject> vos = new ArrayList<>();
         List<Comment> comments = commentMapper.getQuestionComments((long)question.getId());
         model.addAttribute("question", question);
-        model.addAttribute("comments", comments);
+        for (Comment comment : comments) {
+            ViewObject vo = new ViewObject();
+            vo.set("comment", comment);
+            vo.set("user", userMapper.getById(comment.getCreator()));
+            List<Comment> cos = commentMapper.getSecondComments(comment.getId());
+            List<ViewObject> vosT = new ArrayList<>();
+            for (Comment co : cos) {
+                ViewObject viewObject = new ViewObject();
+                viewObject.set("comment", co);
+                viewObject.set("user", userMapper.getById(co.getCreator()));
+                vosT.add(viewObject);
+            }
+            vo.set("vosT", vosT);
+            vos.add(vo);
+        }
+        model.addAttribute("vos", vos);
         model.addAttribute("user", userMapper.getById(question.getCreator()));
         if (user != null && user.getId().equals(question.getCreator())) {
             model.addAttribute("isMe",  "true");
