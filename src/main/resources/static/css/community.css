@@ -70,11 +70,17 @@ body {
 }
 
 .question-related {
-    line-height: 20px;
-    font-size: 12px;
+    line-height: 22px;
+    font-size: 14px;
     margin-left: 0;
     list-style: none;
     padding-left: 0;
+}
+
+
+.img-wechat {
+    width: 150px;
+    height: 100px;
 }
 
 question-wechat {
@@ -171,4 +177,9 @@ question-wechat {
 
 .red {
     color: red !important;
+}
+
+.question-font {
+    font-family: "等线 Light";
+    font-size: 16px;
 }

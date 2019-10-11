@@ -33,3 +33,28 @@ function comment(e) {
     console.log(parentId + ' ' + text);
     sendComment(parentId, text, 2);
 }
+
+function showTags() {
+    $("#select-tag").show();
+}
+
+function selectTag(e) {
+
+    var tag = e.getAttribute('data-tag');
+    var tags = $("#labels").val();
+
+    if (tags.length == 0) {
+        $("#labels").val(tag);
+    } else {
+        var index = tags.lastIndexOf(tag);
+        if (index == -1) {
+            $("#labels").val(tags + ',' + tag);
+        } else {
+            if ((index + tag.length) == tags.length) return;
+            if (tags[index + tag.length] == ',') return;
+            $("#labels").val(tags + ',' + tag);
+        }
+    }
+
+
+}

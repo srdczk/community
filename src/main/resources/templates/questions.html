@@ -39,8 +39,12 @@
             <h3 th:text="${session.user.name}"></h3>
             <h4 th:text="${session.user.bio}"> </h4>
             <p th:text="'join us from :' + ${#dates.format(session.user.gmtCreate, 'yyyy/MM/dd')}"></p><br>
+
             <hr>
-            <h3>热门话题</h3>
+            <h4>站长微信</h4>
+            <img src="/images/img/huangxiaoxie.png" class="img-wechat img-thumbnail">
+            <hr>
+            <h4>热门话题</h4>
             <hr>
         </div>
     </div>

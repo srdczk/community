@@ -9,6 +9,7 @@ import com.czk.community.model.Comment;
 import com.czk.community.model.Question;
 import com.czk.community.model.User;
 import com.czk.community.model.ViewObject;
+import com.czk.community.service.QuestionService;
 import com.czk.community.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ import java.util.List;
  */
 @Controller
 public class QuestionController {
+
+    @Autowired
+    private QuestionService questionService;
 
     @Autowired
     private CommentMapper commentMapper;
@@ -78,6 +82,10 @@ public class QuestionController {
         if (user != null && user.getId().equals(question.getCreator())) {
             model.addAttribute("isMe",  "true");
         }
+        List<Question> related = questionService.selectRelated(question);
+
+        model.addAttribute("related", related);
+
         return "question";
     }
 

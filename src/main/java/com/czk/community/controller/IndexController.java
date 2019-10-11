@@ -33,10 +33,19 @@ public class IndexController {
 
 
     @GetMapping(value = "/")
-    public String index(HttpServletRequest request, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
+    public String index(HttpServletRequest request, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "tag", required = false) String tag) {
         //通过cookies实现持久登录态
         Util.getUserByCookies(request, userMapper);
-        List<Question> questions = questionMapper.getUserBy((page - 1) * 10, 10);
+        List<Question> questions;
+        if (tag == null) {
+            questions = questionMapper.getUserBy((page - 1) * 10, 10);
+        } else {
+            String likeTag = "%" + tag + "%";
+            System.out.println(likeTag);
+            questions = questionMapper.getByTag((page - 1) * 10, 10, likeTag);
+        }
+
+
         List<ViewObject> vos = new ArrayList<>();
         for (Question question : questions) {
             ViewObject vo = new ViewObject();

@@ -21,7 +21,7 @@ public interface QuestionMapper {
     @Select("select count(*) from question")
     Integer getNum();
 
-    @Select("select * from question limit #{off}, #{cnt}")
+    @Select("select * from question order by gmt_create desc limit #{off}, #{cnt}")
     List<Question> getUserBy(@Param(value = "off") Integer off, @Param(value = "cnt") Integer cnt);
 
     @Select("select * from question where creator = #{userId}")
@@ -41,6 +41,13 @@ public interface QuestionMapper {
 
     @Update("update question set view_count = #{viewCount} where id = #{id}")
     int updateViewCount(@Param(value = "viewCount") Integer viewCount, @Param(value = "id") Integer id);
+
+    @Select("select * from question where id != #{id} and tag regexp #{tag} order by gmt_create limit 0, 20")
+    List<Question> selectRelated(@Param(value = "id") Integer id, @Param(value = "tag") String tag);
+
+    @Select("select * from question where tag like #{tag} order by gmt_create desc limit #{off}, #{cnt}")
+    List<Question> getByTag(@Param("off") Integer off, @Param("cnt") Integer cnt, @Param("tag") String tag);
+
 
     @Update("update question set comment_count = #{commentCount}, gmt_modified = #{gmtModified} where id = #{id}")
     int updateCommentCount(Question question);
