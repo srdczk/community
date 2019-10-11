@@ -6,6 +6,7 @@ import com.czk.community.mapper.QuestionMapper;
 import com.czk.community.mapper.UserMapper;
 import com.czk.community.model.Question;
 import com.czk.community.model.User;
+import com.czk.community.util.StringUtil;
 import com.czk.community.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,6 +46,12 @@ public class PublishController {
             model.addAttribute("error", "标签不能为空");
             return "publish";
         }
+
+        if (!StringUtil.canUse(tag)) {
+            model.addAttribute("error", "不能使用非法标签");
+            return "publish";
+        }
+
         User user = Util.getUserByCookies(request, userMapper);
         if (user == null) {
             model.addAttribute("error", "用户未登录");
@@ -82,6 +89,10 @@ public class PublishController {
         User user = Util.getUserByCookies(request, userMapper);
         if (user == null) {
             model.addAttribute("error", "用户未登录");
+            return "publish";
+        }
+        if (!StringUtil.canUse(tag)) {
+            model.addAttribute("error", "不能使用非法标签");
             return "publish";
         }
         Question question = new Question();
