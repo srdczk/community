@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class CommentController {
 
-
     @Autowired
     private CommentService commentService;
 
