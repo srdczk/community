@@ -30,4 +30,6 @@ public interface UserMapper {
     @Update("update user set name = #{name}, bio = #{bio}, avatar = #{avatar}, gmt_modified = #{gmtModified} where id = #{id}")
     int update(User user);
 
+    @Update("update user set unread_count = #{unreadCount} where id = #{id}")
+    int updateUnreadCount(User user);
 }

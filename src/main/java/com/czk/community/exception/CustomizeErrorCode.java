@@ -10,7 +10,9 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     TARGET_NOT_FOUND(2004, "未选择任何问题进行回复"),
     SYSTEM_ERROR(2005, "访问出错，要不您过会儿再试试"),
     TYPE_ERROR(2006, "您的问题种类有误"),
-    COMMENT_NOT_FOUND(2007, "评论不存在");
+    COMMENT_NOT_FOUND(2007, "评论不存在"),
+    REPLY_NOT_FOUND(2008, "该回复不存在")
+    ;
     @Override
     public String getMessage() {
         return message;

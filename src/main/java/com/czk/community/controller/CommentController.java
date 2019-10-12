@@ -5,6 +5,7 @@ import com.czk.community.dto.ResultDTO;
 import com.czk.community.exception.CustomizeErrorCode;
 import com.czk.community.exception.CustomizeException;
 import com.czk.community.mapper.QuestionMapper;
+import com.czk.community.mapper.UserMapper;
 import com.czk.community.model.Comment;
 import com.czk.community.model.Question;
 import com.czk.community.model.User;
@@ -25,8 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class CommentController {
 
-    @Autowired
-    private QuestionMapper questionMapper;
 
     @Autowired
     private CommentService commentService;

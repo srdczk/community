@@ -95,10 +95,10 @@
                     </div>
                 </div>
                 <hr>
-                <div class="col-lg-9 col-md-12 col-md-12" id = "comment-area">
+                <div class="col-lg-9 col-md-12 col-md-12" id = "comment-area" th:if="${session.user != null}">
                 <h4>提交回复</h4>
                 <hr>
-                <div th:if="${session.user != null}">
+                <div>
                     <img th:src="${session.user.avatar}" width="50px" height="50px" class="img-circle">
                     <div class="media-body">
                         <h5 class="media-heading">

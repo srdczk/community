@@ -14,6 +14,19 @@ import java.util.List;
  */
 public class Util {
 
+    public static int getCorrectPage(int sum, int p) {
+        int max = sum % 10 == 0 ? sum / 10 : sum / 10 + 1;
+
+        if (p < 1) p = 1;
+        if (p > max) p = max;
+        return p;
+    }
+
+    public static String getType(Integer type) {
+        if (type.equals(1)) {
+            return "问题";
+        } else return "评论";
+    }
 
     public static User getUserByCookies(HttpServletRequest request, UserMapper userMapper) {
         User user = null;
@@ -32,11 +45,7 @@ public class Util {
 
 
     public static List<PageObject> getPageObject(int sum, int p) {
-
         int max = sum % 10 == 0 ? sum / 10 : sum / 10 + 1;
-
-        if (p < 1) p = 1;
-        if (p > max) p = max;
         List<PageObject> pos = new ArrayList<>();
         if (p > 3) pos.add(new PageObject("<<", 1));
         if (p > 1) pos.add(new PageObject("<", p - 1));

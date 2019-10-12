@@ -13,6 +13,7 @@ public class User {
     private Long gmtModified;
     private String avatar;
     private String bio;
+    private Integer unreadCount;
 
     public String getBio() {
         return bio;
@@ -76,5 +77,13 @@ public class User {
 
     public void setGmtModified(Long gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public Integer getUnreadCount() {
+        return unreadCount;
+    }
+
+    public void setUnreadCount(Integer unreadCount) {
+        this.unreadCount = unreadCount;
     }
 }

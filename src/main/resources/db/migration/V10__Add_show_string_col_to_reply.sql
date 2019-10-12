@@ -1,0 +1,1 @@
+ALTER TABLE REPLY ADD show_string VARCHAR(30) DEFAULT '杜狗司马' NULL;

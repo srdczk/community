@@ -3,6 +3,7 @@ package com.czk.community.controller;
 
 import com.czk.community.mapper.CommentMapper;
 import com.czk.community.mapper.QuestionMapper;
+import com.czk.community.mapper.ReplyMapper;
 import com.czk.community.mapper.UserMapper;
 import com.czk.community.model.*;
 import com.czk.community.util.Util;
@@ -27,7 +28,8 @@ public class IndexController {
 
     @Autowired
     private QuestionMapper questionMapper;
-
+    @Autowired
+    private ReplyMapper replyMapper;
     @Autowired
     private UserMapper userMapper;
 
@@ -37,14 +39,25 @@ public class IndexController {
         //通过cookies实现持久登录态
         Util.getUserByCookies(request, userMapper);
         List<Question> questions;
+        int sum;
         if (tag == null) {
+            sum = questionMapper.getNum();
+            page = Util.getCorrectPage(sum, page);
             questions = questionMapper.getUserBy((page - 1) * 10, 10);
         } else {
             String likeTag = "%" + tag + "%";
-            System.out.println(likeTag);
+            sum = questionMapper.getTagNum(likeTag);
+            page = Util.getCorrectPage(sum, page);
             questions = questionMapper.getByTag((page - 1) * 10, 10, likeTag);
         }
-
+//        private Integer questionId;
+//        //回复的方式
+//        private Integer type;
+//        //回复人昵称
+//        private String creator;
+//        //回复了谁
+//        private Integer owner;
+//        private Long gmtCreate;
 
         List<ViewObject> vos = new ArrayList<>();
         for (Question question : questions) {
@@ -55,7 +68,7 @@ public class IndexController {
         }
         System.out.println(vos.size());
         model.addAttribute("vos", vos);
-        model.addAttribute("pos", Util.getPageObject(questionMapper.getNum(), page));
+        model.addAttribute("pos", Util.getPageObject(sum, page));
         return "index";
     }
 }

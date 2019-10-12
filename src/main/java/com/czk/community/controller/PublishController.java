@@ -34,6 +34,10 @@ public class PublishController {
                          @RequestParam("id") String id,
                          HttpServletRequest request,
                          Model model) {
+        model.addAttribute("id", id);
+        model.addAttribute("title", title);
+        model.addAttribute("text", description);
+        model.addAttribute("tag", tag);
         if (title == null || title.equals("")) {
             model.addAttribute("error", "标题不能为空");
             return "publish";
@@ -74,6 +78,9 @@ public class PublishController {
                           @RequestParam("tag") String tag,
                           HttpServletRequest request,
                           Model model) {
+        model.addAttribute("title", title);
+        model.addAttribute("text", description);
+        model.addAttribute("tag", tag);
         if (title == null || title.equals("")) {
             model.addAttribute("error", "标题不能为空");
             return "publish";
