@@ -22,10 +22,27 @@
                     <h4><label for="title">问题标题(简明扼要)</label></h4>
                     <input type="text" class="form-control" id="title" name="title"  th:value="${title == null ? '' : title}" th:placeholder="${title == null ? '请输入问题标题...' : title}">
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="question-editor">
                     <h4><label for="text">问题补充(必填，请按照右边格式要求)</label></h4>
-                    <textarea  id="text" class="form-control" cols="30" rows="20" name="text" th:text="${text == null ? '' : text}" th:placeholder="${text == null ? '请输入问题描述...' : text}"></textarea>
+                    <textarea  id="text" class="form-control" cols="30" rows="10" style="display:none;" name="text" th:text="${text == null ? '' : text}" th:placeholder="${text == null ? '请输入问题描述...' : text}"></textarea>
                 </div>
+
+                <!--<div class="form-group" id="question-editor">-->
+                    <!--<label for="description">问题补充 (必填，请参照右侧提示):</label>-->
+                    <!--<textarea name="description" id="description" style="display:none;" class="form-control" cols="30" rows="10"></textarea>-->
+                <!--</div>-->
+                <script type="text/javascript">
+                    $(function() {
+                        var editor = editormd("question-editor", {
+                            width: "100%",
+                            height: 350,
+                            path: "/lib/",
+                            delay: 0,
+                            watch: false,
+                            placeholder: "请输入问题描述"
+                        });
+                    });
+                </script>
                 <div class="form-group">
                     <h4><label for="labels">添加标签:</label></h4>
                     <input type="text" autocomplete="off" class="form-control" id="labels" th:value="${tag == null ? '' : tag}" th:placeholder="${tag == null ? '输入标签，用，分隔' : tag}" name="tag" onclick="showTags()">

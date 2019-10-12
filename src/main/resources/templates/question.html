@@ -27,10 +27,23 @@
 
                 <br><hr>
 
+
+
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view">
-                    <p class="question-font" th:text="${question.getDescription()}"></p>
+
+                        <!-- Server-side output Markdown text -->
+                        <textarea style="display:none;" th:text="${question.getDescription()}">### Hello world!</textarea>
 
                 </div>
+                <script type="text/javascript">
+                    $(function() {
+                        var testView = editormd.markdownToHTML("question-view", {
+                            // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+                            // htmlDecode : true,  // Enable / disable HTML tag encode.
+                            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+                        });
+                    });
+                </script>
 
                 <br><br><br>
                 <hr>
