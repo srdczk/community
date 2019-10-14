@@ -1,6 +1,8 @@
 package com.czk.community.controller;
 
 
+import com.czk.community.exception.CustomizeErrorCode;
+import com.czk.community.exception.CustomizeException;
 import com.czk.community.mapper.CommentMapper;
 import com.czk.community.mapper.QuestionMapper;
 import com.czk.community.mapper.ReplyMapper;
@@ -10,10 +12,7 @@ import com.czk.community.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -34,22 +33,32 @@ public class IndexController {
     private UserMapper userMapper;
 
 
-    @GetMapping(value = "/")
-    public String index(HttpServletRequest request, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "tag", required = false) String tag) {
+    @RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
+    public String index(HttpServletRequest request, Model model,
+                        @RequestParam(value = "page", defaultValue = "1") Integer page,
+                        @RequestParam(value = "tag", required = false) String tag,
+                        @RequestParam(value = "search", required = false) String search) {
         //通过cookies实现持久登录态
         Util.getUserByCookies(request, userMapper);
         List<Question> questions;
         int sum;
-        if (tag == null) {
+        if (tag == null && search == null) {
             sum = questionMapper.getNum();
             page = Util.getCorrectPage(sum, page);
             questions = questionMapper.getUserBy((page - 1) * 10, 10);
+        } else if (tag != null && search != null) {
+            throw new CustomizeException(CustomizeErrorCode.URL_ERROR);
+        } else if (tag == null) {
+            sum = questionMapper.getSearchNum(search);
+            page = Util.getCorrectPage(sum, page);
+            questions = questionMapper.selectBySearch(search,(page - 1) * 10, 10);
         } else {
             String likeTag = "%" + tag + "%";
             sum = questionMapper.getTagNum(likeTag);
             page = Util.getCorrectPage(sum, page);
             questions = questionMapper.getByTag((page - 1) * 10, 10, likeTag);
         }
+
 //        private Integer questionId;
 //        //回复的方式
 //        private Integer type;

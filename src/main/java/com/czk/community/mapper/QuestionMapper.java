@@ -54,4 +54,9 @@ public interface QuestionMapper {
     @Update("update question set comment_count = #{commentCount}, gmt_modified = #{gmtModified} where id = #{id}")
     int updateCommentCount(Question question);
 
+    @Select("select * from question where title regexp #{search} order by gmt_create limit #{off}, #{cnt}")
+    List<Question> selectBySearch(@Param(value = "search") String search, @Param(value = "off") Integer off, @Param(value = "cnt") Integer cnt);
+
+    @Select("select count(*) from question where title regexp #{search}")
+    Integer getSearchNum(@Param(value = "search") String search);
 }
