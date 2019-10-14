@@ -112,7 +112,11 @@
                 <h4>提交回复</h4>
                 <hr>
                 <div>
-                    <img th:src="${session.user.avatar}" width="50px" height="50px" class="img-circle">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-circle" th:src="${session.user.avatar}" width="40px" height="40px">
+                        </a>
+                    </div>
                     <div class="media-body">
                         <h5 class="media-heading">
                             <span th:text="${session.user.name}"></span>
@@ -130,7 +134,7 @@
         <div class="col-lg-3 col-md-12 col-md-12">
             <h4>发起人</h4>
             <img th:src="${user.getAvatar()}" width="50px" height="50px" class="img-circle">
-            <p th:text="${user.getName()}"></p>
+            <p th:text="'  ' + ${user.getName()}"></p>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
             <h4>站长微信</h4>
